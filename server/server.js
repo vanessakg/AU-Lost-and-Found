@@ -13,5 +13,22 @@ var db = mysql.createConnection({
 
 db.connect(function(err){
     if (err) throw err;
-    console.log("Database connected.")
+    console.log("Database MDV_S2021 is connected.")
+})
+
+app.get("/AdminInfo", (req, res) => {
+    const adminID = req.body.adminID;
+    const adminPW = req.body.adminPW;
+    db.query(
+        "SELECT * FROM Admin", [adminID, adminPW], 
+        (err, result) => {
+            if(err) throw err;
+            console.log(result)
+            console.log("Admin:", adminID)
+            console.log("Password: ", adminPW)
+    })
+});
+
+app.listen('3001', () => { 
+    console.log("Server running on port 3001")
 })
