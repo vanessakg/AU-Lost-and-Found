@@ -1,12 +1,17 @@
 const express = require('express');
 const mysql = require('mysql');
+const session = require('express-session');
 const app = express();
-const path = require('path');
+const bodyParser = require('body-parser')
 
 app.use(express.json());
-app.set('public', path.join(__dirname, 'public'));
-app.set("view engine", "ejs")
-
+app.use(express.static("public"))
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
 const db = mysql.createConnection({
     user: "DMV_S2021",
     host: "45.55.136.114",
@@ -19,36 +24,44 @@ db.connect(function(err){
     console.log("Database MDV_S2021 is connected.")
 })
 
-
 app.post("/AdminInfo", (req, res) => {
-    const adminID = req.body.adminID;
-    const adminPW = req.body.adminPW;
+    const adminID = req.body.id;
+    const adminPW = req.body.pw;
     db.query(
-        "SELECT * FROM Admin", [adminID, adminPW],
+        'SELECT * FROM Admin WHERE adminID = ? AND adminPW = ?',
+        [adminID, adminPW],
         (err, result) => {
+            console.log(`${adminID}`)
+            console.log(`${adminPW}`)
             if(err) throw err;
-            console.log(result)
-            res.send(result)
-            //console.log("Admin:", `${adminID}`)
-            //console.log("Password: ", `${adminPW}`)
+            if(result.length > 0){
+                req.session.loggedin = true;
+				req.session.adminID = adminID;
+                
+                res.redirect('/lostItemsAdmin')
+            }else{
+                res.send("incorrect verification")
+            }
+            
+            
     })
-    res.render('adminLogin')
 });
 
 app.get("/lostItemsAdmin", (req, res) => {
-    db.query(
-        "SELECT * FROM lostItems",
-        (err,result) => {
-            if(err) throw err;
-            console.log(result)
-            res.send(result)
-        }
-    )
+    if(req.session.loggedin){
+        db.query(
+            "SELECT * FROM lostItems",
+            (err,result) => {
+                if(err) throw err;
+                console.log(result)
+                res.send(result)
+            }
+        )
+    }else{
+        res.send("You must be an admin to view this page")
+    }
     
-})
-
-app.get("/", (req, res) => {
-    res.render("login")
+    
 })
 
 app.listen('3001', () => { 
