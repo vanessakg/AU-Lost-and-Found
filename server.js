@@ -2,16 +2,19 @@ const express = require('express');
 const mysql = require('mysql');
 const session = require('express-session');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
+app.set('view engine', 'pug' );
 app.use(express.json());
-app.use(express.static("public"))
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(express.static("views"));
+app.use(bodyParser.urlencoded({extended:true}));
+
 app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true
 }));
+
 const db = mysql.createConnection({
     user: "DMV_S2021",
     host: "45.55.136.114",
@@ -47,6 +50,31 @@ app.post("/AdminInfo", (req, res) => {
     })
 });
 
+app.post("/UserInfo", (req, res) => {
+    const userID = req.body.userID;
+    const userPW = req.body.userPW;
+
+    db.query(
+        'SELECT * FROM User WHERE userID = ? AND userPW = ?',
+        [userID, userPW],
+        (err, result) => {
+            console.log(`${userID}`)
+            console.log(`${userPW}`)
+
+            if(err) throw err;
+            if(result.length > 0){
+                req.session.loggedin = true;
+				req.session.userID = userID;
+
+                res.redirect('/lostItemsStudent')
+            }else{
+                res.send("Incorrect login, try again")
+            }
+
+        }
+    )
+})
+
 app.get("/lostItemsAdmin", (req, res) => {
     if(req.session.loggedin){
         db.query(
@@ -62,6 +90,18 @@ app.get("/lostItemsAdmin", (req, res) => {
     }
     
     
+})
+
+app.get('/loginPage', (req, res) => {
+    res.render('login');
+})
+
+app.get('/admin', (req, res) => {
+    res.render('admin')
+})
+
+app.get('/student', (req, res) => {
+    res.render('studentLogin')
 })
 
 app.listen('3001', () => { 
