@@ -97,7 +97,7 @@ app.get('/loginPage', (req, res) => {
 })
 
 app.get('/admin', (req, res) => {
-    res.render('admin')
+    res.render('adminlogin')
 })
 
 app.get('/student', (req, res) => {
