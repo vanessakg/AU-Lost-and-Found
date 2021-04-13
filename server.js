@@ -75,15 +75,32 @@ app.post("/UserInfo", (req, res) => {
     )
 })
 
-// app.post('/submitItem', (req, res) => {
-//     var userID = req.body.userID;
-//     var phoneNum = req.body.phoneNum;
-//     var personFound = req.body.personFound;
-//     var itemName = req.body.itemName;
+app.post('/submitItem', (req, res) => {
+    var userID = req.body.userID;
+    var phoneNum = req.body.phoneNum;
+    var personFound = req.body.personFound;
+    var itemName = req.body.itemName;
+    var locationFound = req.body.locationFound;
+    var locationDetails = req.body.locationDetails;
+    var dateFound = req.body.dateFound;
+    var timeFound = req.body.timeFound;
+    var itemValue = req.body.itemValue;
+    var description = req.body. description;
+
+    const vals = [
+        userID, phoneNum, personFound, itemName, locationFound, locationDetails, dateFound, timeFound, itemValue, description
+    ]
     
-//     db.query("INSERT INTO lostItems (userID, phoneNum, personFound, itemName, locationFound, " +
-//     "locationDetails, dateFound, timeFound, itemValue, description) VALUES (?)")
-// })
+    db.query("INSERT INTO lostItems (userID, phoneNum, personFound, itemName, locationFound, " +
+    "locationDetails, dateFound, timeFound, itemValue, description) VALUES (?)",
+    [vals], (err, result) => {
+        if(err) throw err;
+
+        console.log(result)
+        res.send(result)
+        
+    })
+})
 
 app.get("/lostItemsAdmin", (req, res) => {
     if(req.session.loggedin){
@@ -113,11 +130,13 @@ app.get('/admin', (req, res) => {
 app.get('/student', (req, res) => {
     res.render('studentLogin')
 })
+app.get('adminTable', (req, res) => {
+    res.render('lostItems')
+})
 
 app.get('/submitLostItem', (req, res) => {
     res.render('itemSubmission')
 })
-
 app.listen('3001', () => { 
     console.log("Server running on port 3001")
 })
