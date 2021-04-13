@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const session = require('express-session');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require("cors");
 
 app.set('view engine', 'pug' );
 app.use(express.json());
@@ -14,6 +15,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+app.use(cors());
 
 const db = mysql.createConnection({
     user: "DMV_S2021",
@@ -41,7 +44,7 @@ app.post("/AdminInfo", (req, res) => {
                 req.session.loggedin = true;
 				req.session.adminID = adminID;
                 
-                res.redirect('/lostItemsAdmin')
+                res.redirect('/adminTable')
             }else{
                 res.send("incorrect verification")
             }
@@ -96,7 +99,7 @@ app.post('/submitItem', (req, res) => {
     [vals], (err, result) => {
         if(err) throw err;
 
-        console.log(result)
+        console.log(`Inserted item: ${result}`)
         res.send(result)
         
     })
@@ -130,13 +133,19 @@ app.get('/admin', (req, res) => {
 app.get('/student', (req, res) => {
     res.render('studentLogin')
 })
-app.get('adminTable', (req, res) => {
-    res.render('lostItems')
-})
 
 app.get('/submitLostItem', (req, res) => {
     res.render('itemSubmission')
 })
+app.get('/submitItem', (req, res) => {
+    res.redirect('')
+})
+
+app.get('/adminTable', (req, res) => {
+    res.render('lostItems')
+})
+
+app.get
 app.listen('3001', () => { 
     console.log("Server running on port 3001")
 })
