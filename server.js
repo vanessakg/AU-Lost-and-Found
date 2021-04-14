@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const session = require('express-session');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require("cors");
 
 app.set('view engine', 'pug' );
 app.use(express.json());
@@ -14,6 +15,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+app.use(cors());
 
 const db = mysql.createConnection({
     user: "DMV_S2021",
@@ -41,7 +44,7 @@ app.post("/AdminInfo", (req, res) => {
                 req.session.loggedin = true;
 				req.session.adminID = adminID;
                 
-                res.redirect('/lostItemsAdmin')
+                res.redirect('/adminTable')
             }else{
                 res.send("incorrect verification")
             }
@@ -75,6 +78,33 @@ app.post("/UserInfo", (req, res) => {
     )
 })
 
+app.post('/submitItem', (req, res) => {
+    var userID = req.body.userID;
+    var phoneNum = req.body.phoneNum;
+    var personFound = req.body.personFound;
+    var itemName = req.body.itemName;
+    var locationFound = req.body.locationFound;
+    var locationDetails = req.body.locationDetails;
+    var dateFound = req.body.dateFound;
+    var timeFound = req.body.timeFound;
+    var itemValue = req.body.itemValue;
+    var description = req.body. description;
+
+    const vals = [
+        userID, phoneNum, personFound, itemName, locationFound, locationDetails, dateFound, timeFound, itemValue, description
+    ]
+    
+    db.query("INSERT INTO lostItems (userID, phoneNum, personFound, itemName, locationFound, " +
+    "locationDetails, dateFound, timeFound, itemValue, description) VALUES (?)",
+    [vals], (err, result) => {
+        if(err) throw err;
+
+        console.log(`Inserted item: ${result}`)
+        res.send(result)
+        
+    })
+})
+
 app.get("/lostItemsAdmin", (req, res) => {
     if(req.session.loggedin){
         db.query(
@@ -104,6 +134,18 @@ app.get('/student', (req, res) => {
     res.render('studentLogin')
 })
 
+app.get('/submitLostItem', (req, res) => {
+    res.render('itemSubmission')
+})
+app.get('/submitItem', (req, res) => {
+    res.redirect('')
+})
+
+app.get('/adminTable', (req, res) => {
+    res.render('lostItems')
+})
+
+app.get
 app.listen('3001', () => { 
     console.log("Server running on port 3001")
 })

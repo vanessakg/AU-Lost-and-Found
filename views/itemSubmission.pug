@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+        <title>Admin Login</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+
+        <!-- Bootstrap core CSS -->
+        <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="signin.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </head>
+    <body class="text-center mt-5">
+        <h2 >Submit a Lost Item</h2>
+        <form style="max-width:400px; margin:auto"class="form-signin" action="/submitItem" method="POST">
+            <div class="form-group">
+                <label for="">Item name:</label>
+                <input type="text" class="form-control" name="itemName">
+            </div>
+            <div class="form-group">
+                <label for="">Name of person who found item:</label>
+                <input type="text" class="form-control" name="personFound">
+            </div>
+
+            <div class="form-group">
+                <label for="email">AU ID:</label>
+                <input type="text" class="form-control" name="userID">
+            </div>
+            <div class="form-group">
+                <label for="email">Phone:</label>
+                <input type="text" class="form-control" name="phoneNum">
+            </div>
+            <div class="form-group">
+                <label for="">Date:</label>
+                <input type="date" class="form-control" name="dateFound">
+            </div>
+            <div class="form-group">
+                <label for="">Time:</label>
+                <input type="time" class="form-control" name="timeFound">
+            </div>
+            <div class="form-group">
+                <label for="">Describe the item:</label>
+                <textarea cols="54" rows="4" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="">Location Found:</label>
+                <input type="text" class="form-control" name="locationFound">
+            </div>
+            <div class="form-group">
+                <label for="">Location Details:</label>
+                <textarea cols="54" rows="4" name="locationDetails"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="">Item value:</label>
+                <input type="text" class="form-control" name="itemValue">
+            </div>
+            
+            
+            <button class="btn btn-lg btn-primary" type="submit" class="btn btn-default">Add Item</button>
+            <a href="lostItemsAdmin"><button class="btn btn-lg btn-primary" type="submit" class="btn btn-default">Go Back</button>
+
+        </form>
+    </body>
+</html>
