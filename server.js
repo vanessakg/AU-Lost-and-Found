@@ -137,9 +137,6 @@ app.get('/student', (req, res) => {
 app.get('/submitLostItem', (req, res) => {
     res.render('itemSubmission')
 })
-app.get('/submitItem', (req, res) => {
-    res.redirect('')
-})
 
 app.get('/adminTable', (req, res) => {
     res.render('lostItems')
