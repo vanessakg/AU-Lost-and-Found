@@ -1,0 +1,62 @@
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='')
+  meta(name='author' content='')
+  link(rel='icon' href='/docs/4.0/assets/img/favicons/favicon.ico')
+  title Admin Home
+  link(rel='canonical' href='https://getbootstrap.com/docs/4.0/examples/sign-in/')
+  // Bootstrap core CSS
+  link(href='../../dist/css/bootstrap.min.css' rel='stylesheet')
+  // Custom styles for this template
+  link(href='signin.css' rel='stylesheet')
+  link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO' crossorigin='anonymous')
+  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous')
+  script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous")
+h3  Current Lost Items Inventory
+table.table.table-striped
+  thead
+    tr
+      th(scope='col') AU email
+      th(scope='col') Phone
+      th(scope='col') Who found it 
+      th(scope='col') Item Name
+      th(scope='col') Location Found
+      th(scope='col') Location Details
+      th(scope='col') Date Found
+      th(scope='col') Time Found
+      th(scope='col') Handle
+      th(scope='col') Description
+  tbody#myTable
+script.
+  var array = []
+  $.ajax({
+  method: 'GET',
+  url: 'http://localhost:3001/lostItemsAdmin',
+  success: function(response){
+  array = response;
+  buildTable(array)
+  console.log(array)
+  }
+  })
+  function buildTable(data){
+  var table = document.getElementById('myTable')
+  for (var i=0; i<data.length; i++){
+  var row = `<tr>
+  <td>${data[i].userID}</td>
+  <td>${data[i].phoneNum}</td>
+  <td>${data[i].personFound}</td>
+  <td>${data[i].itemName}</td>
+  <td>${data[i].locationFound}</td>
+  <td>${data[i].locationDetails}</td>
+  <td>${moment(data[i].dateFound).format('MM/DD/YYYY')}</td>
+  <td>${data[i].timeFound}</td>
+  <td>${data[i].itemValue}</td>
+  <td>${data[i].description}</td>
+  </tr>`
+  table.innerHTML += row
+  }
+  }
+a(href='submitLostItem')
+  button New Item

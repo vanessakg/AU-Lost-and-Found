@@ -69,7 +69,7 @@ app.post("/UserInfo", (req, res) => {
                 req.session.loggedin = true;
 				req.session.userID = userID;
 
-                res.redirect('/studentTable')
+                res.redirect('/lostItemsStudent')
             }else{
                 res.send("Incorrect login, try again")
             }
@@ -105,10 +105,10 @@ app.post('/submitItem', (req, res) => {
     })
 })
 
-app.get("/lostItemsAdmin", (req, res) => {
+app.get("/lostItemsStudent", (req, res) => {
     if(req.session.loggedin){
         db.query(
-            "SELECT * FROM lostItems",
+            "SELECT itemName, locationFound, description FROM lostItems",
             (err,result) => {
                 if(err) throw err;
                 console.log(result)
@@ -125,7 +125,7 @@ app.get("/lostItemsAdmin", (req, res) => {
 app.get("/lostItemsStudent", (req, res) => {
     if(req.session.loggedin){
         db.query(
-            "SELECT itemName, locationFound, description FROM lostItems",
+            "SELECT  FROM lostItems",
             (err,result) => {
                 if(err) throw err;
                 console.log(result)
@@ -133,7 +133,7 @@ app.get("/lostItemsStudent", (req, res) => {
             }
         )
     }else{
-        res.send("You must be an student to view this page")
+        res.send("You must be an admin to view this page")
     }
     
     
@@ -160,10 +160,6 @@ app.get('/submitItem', (req, res) => {
 
 app.get('/adminTable', (req, res) => {
     res.render('lostItems')
-})
-
-app.get('/studentTable', (req,res)=>{
-    res.render('studentTable')
 })
 
 app.listen('3001', () => { 

@@ -69,7 +69,7 @@ app.post("/UserInfo", (req, res) => {
                 req.session.loggedin = true;
 				req.session.userID = userID;
 
-                res.redirect('/studentTable')
+                res.redirect('/lostItemsStudent')
             }else{
                 res.send("Incorrect login, try again")
             }
@@ -162,8 +162,8 @@ app.get('/adminTable', (req, res) => {
     res.render('lostItems')
 })
 
-app.get('/studentTable', (req,res)=>{
-    res.render('studentTable')
+app.get('/UserInfo', (req,res)=>{
+    res.render('')
 })
 
 app.listen('3001', () => { 

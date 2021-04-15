@@ -69,7 +69,7 @@ app.post("/UserInfo", (req, res) => {
                 req.session.loggedin = true;
 				req.session.userID = userID;
 
-                res.redirect('/studentTable')
+                res.redirect('/lostItemsStudent')
             }else{
                 res.send("Incorrect login, try again")
             }
@@ -162,9 +162,7 @@ app.get('/adminTable', (req, res) => {
     res.render('lostItems')
 })
 
-app.get('/studentTable', (req,res)=>{
-    res.render('studentTable')
-})
+app.get('/')
 
 app.listen('3001', () => { 
     console.log("Server running on port 3001")

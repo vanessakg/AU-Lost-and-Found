@@ -162,7 +162,7 @@ app.get('/adminTable', (req, res) => {
     res.render('lostItems')
 })
 
-app.get('/studentTable', (req,res)=>{
+app.get('/lostItemsStudent', (req,res)=>{
     res.render('studentTable')
 })
 
