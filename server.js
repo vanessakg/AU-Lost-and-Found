@@ -16,7 +16,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(cors());
+app.use(cors({
+    methods: ["GET", "POST", "DELETE"]
+}));
 
 const db = mysql.createConnection({
     user: "DMV_S2021",
@@ -31,8 +33,8 @@ db.connect(function(err){
 })
 
 app.post("/AdminInfo", (req, res) => {
-    const adminID = req.body.id;
-    const adminPW = req.body.pw;
+    const adminID = req.body.adminID;
+    const adminPW = req.body.adminPW;
     db.query(
         'SELECT * FROM Admin WHERE adminID = ? AND adminPW = ?',
         [adminID, adminPW],
@@ -105,6 +107,41 @@ app.post('/submitItem', (req, res) => {
     })
 })
 
+app.delete('/adminTable/:id', (req, res) => {
+    let id = req.params.id;
+    db.query("DELETE FROM lostItems WHERE userID = ?", id, (err, result) => {
+        if(err) throw err;
+        console.log("Deleted successfully")
+    })
+})
+
+app.post('/claimedItem', (req, res) => {
+    var userID = req.body.userID;
+    var phoneNum = req.body.phoneNum;
+    var personFound = req.body.personFound;
+    var itemName = req.body.itemName;
+    var locationFound = req.body.locationFound;
+    var locationDetails = req.body.locationDetails;
+    var dateFound = req.body.dateFound;
+    var timeFound = req.body.timeFound;
+    var itemValue = req.body.itemValue;
+    var description = req.body. description;
+
+    const vals = [
+        userID, phoneNum, personFound, itemName, locationFound, locationDetails, dateFound, timeFound, itemValue, description
+    ]
+    
+    db.query("INSERT INTO claimedItems (userID, phoneNum, personFound, itemName, locationFound, " +
+    "locationDetails, dateFound, timeFound, itemValue, description) VALUES (?)",
+    [vals], (err, result) => {
+        if(err) throw err;
+
+        console.log(`Inserted item: ${result}`)
+        res.send(result)
+    })
+
+})
+
 app.get("/lostItemsAdmin", (req, res) => {
     if(req.session.loggedin){
         db.query(
@@ -115,8 +152,6 @@ app.get("/lostItemsAdmin", (req, res) => {
                 res.send(result)
             }
         )
-    }else{
-        res.send("You must be an admin to view this page")
     }
     
     
@@ -167,6 +202,10 @@ app.get('/student', (req, res) => {
 
 app.get('/submitLostItem', (req, res) => {
     res.render('itemSubmission')
+})
+
+app.get('/submitClaimedItem', (req, res) => {
+    res.render('claimedItem')
 })
 
 app.get('/adminTable', (req, res) => {
