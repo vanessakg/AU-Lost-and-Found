@@ -177,8 +177,8 @@ app.get('/studentTable', (req,res)=>{
     res.render('studentTable')
 })
 
-app.get('/showMonth', (req,res)=>{
-    res.render('showMonth')
+app.get('/monthlyReport', (req,res)=>{
+    res.render('monthlyReport')
 })
 
 app.listen('3001', () => { 

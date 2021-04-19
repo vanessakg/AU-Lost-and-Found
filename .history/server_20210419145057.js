@@ -139,19 +139,7 @@ app.get("/lostItemsStudent", (req, res) => {
     
 })
 
-app.get("/monthlyReport", (req,res)=>{
-    db.query(
-        "SELECT * FROM lostItems WHERE month(dateFound)=month(now())",
-        (err,result)=>{
-            if(err) throw err;
-            console.log(result);
-            res.send(result)
-        }
-    )
-
-})
-//select * from orders
-//where month(order_date)=month(now())-1
+app.get("/monthlyReport", (req,res)=>)
 
 app.get('/loginPage', (req, res) => {
     res.render('login');
@@ -175,10 +163,6 @@ app.get('/adminTable', (req, res) => {
 
 app.get('/studentTable', (req,res)=>{
     res.render('studentTable')
-})
-
-app.get('/showMonth', (req,res)=>{
-    res.render('showMonth')
 })
 
 app.listen('3001', () => { 
