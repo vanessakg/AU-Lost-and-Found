@@ -16,7 +16,7 @@ head
   script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js', integrity='sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==', crossorigin='anonymous')
 h3  Current Lost Items Inventory
 h2 Search for an item
-input#myInput(type='text', onkeyup='myFunction()', placeholder='Search for an item...', title='Type in a item')
+input#myInput(type='text', onkeyup='filterSearch()', placeholder='Search for an item...', title='Type in a item')
 table.table.table-striped
   thead
     tr
@@ -39,30 +39,26 @@ script.
   var table = document.getElementById('myTable')
   for (var i = 0; i < data.length; i++) {
   var row = `<tr>
-  <td>${data[i].itemName}</td>
-  <td>${data[i].locationFound}</td>
-  <td>${data[i].description}</td>
+  <td><a href="#">${data[i].itemName}</a></td>
+  <td><a href="#">${data[i].locationFound}</a></td>
+  <td><a href="#">${data[i].description}</a></td>
   </tr>`
   table.innerHTML += row
   }
   }
-  function myFunction() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
+  function filterSearch(){
+  var input, filter, ul, li, a, i, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-  td = tr[i].getElementsByTagName("td")[0];
-  if (td) {
-  txtValue = td.textContent || td.innerText;
+  ul = document.getElementById("myTable");
+  li = ul.getElementsByTagName("th");
+  for (i = 0; i < li.length; i++) {
+  a = li[i].getElementsByTagName("a")[0];
+  txtValue = a.textContent || a.innerText;
   if (txtValue.toUpperCase().indexOf(filter) > -1) {
-  tr[i].style.display = "";
+  li[i].style.display = "";
   } else {
-  tr[i].style.display = "none";
-  }
+  li[i].style.display = "none";
   }
   }
   }
