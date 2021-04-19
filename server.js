@@ -33,8 +33,8 @@ db.connect(function(err){
 })
 
 app.post("/AdminInfo", (req, res) => {
-    const adminID = req.body.id;
-    const adminPW = req.body.pw;
+    const adminID = req.body.adminID;
+    const adminPW = req.body.adminPW;
     db.query(
         'SELECT * FROM Admin WHERE adminID = ? AND adminPW = ?',
         [adminID, adminPW],
@@ -152,8 +152,6 @@ app.get("/lostItemsAdmin", (req, res) => {
                 res.send(result)
             }
         )
-    }else{
-        res.send("You must be an admin to view this page")
     }
     
     
