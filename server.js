@@ -111,7 +111,16 @@ app.delete('/adminTable/:id', (req, res) => {
     let id = req.params.id;
     db.query("DELETE FROM lostItems WHERE userID = ?", id, (err, result) => {
         if(err) throw err;
-        console.log("Deleted successfully")
+
+        if(result.length > 0){
+            console.log("Deleted successfully")
+        }else{
+            console.log("Unable to delete")
+            res.send("Unable to delete")
+        }
+        
+
+        
     })
 })
 
