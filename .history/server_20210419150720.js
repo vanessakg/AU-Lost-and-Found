@@ -141,7 +141,7 @@ app.get("/lostItemsStudent", (req, res) => {
 
 app.get("/monthlyReport", (req,res)=>{
     db.query(
-        "SELECT * FROM lostItems WHERE month(dateFound)=month(now())",
+        "SELECT * FROM lostItems WHERE month(dateFound)=month(now)",
         (err,result)=>{
             if(err) throw err;
             console.log(result);
@@ -177,8 +177,8 @@ app.get('/studentTable', (req,res)=>{
     res.render('studentTable')
 })
 
-app.get('/showMonth', (req,res)=>{
-    res.render('showMonth')
+app.get('/monthlyReport', (req,res)=>{
+    res.render('monthlyReport')
 })
 
 app.listen('3001', () => { 

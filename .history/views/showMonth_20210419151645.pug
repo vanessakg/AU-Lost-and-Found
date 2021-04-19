@@ -4,7 +4,7 @@ head
   meta(name='description' content='')
   meta(name='author' content='')
   link(rel='icon' href='/docs/4.0/assets/img/favicons/favicon.ico')
-  title Admin Home
+  title Monthly Report
   link(rel='canonical' href='https://getbootstrap.com/docs/4.0/examples/sign-in/')
   // Bootstrap core CSS
   link(href='../../dist/css/bootstrap.min.css' rel='stylesheet')
@@ -14,10 +14,10 @@ head
   script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous')
   script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous')
   script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous")
-h3  Current Lost Items Inventory
+h3  This Months Inventory
 table.table.table-striped
   thead
-    tr
+    tr 
       th(scope='col') AU email
       th(scope='col') Phone
       th(scope='col') Who found it 
@@ -33,7 +33,7 @@ script.
   var array = []
   $.ajax({
   method: 'GET',
-  url: 'http://localhost:3001/lostItemsAdmin',
+  url: 'http://localhost:3001/monthlyReport',
   success: function(response){
   array = response;
   buildTable(array)
@@ -58,7 +58,4 @@ script.
   table.innerHTML += row
   }
   }
-a(href='submitLostItem')
-  button New Item
-a(href='showMonth')
-  button Monthly Report
+
