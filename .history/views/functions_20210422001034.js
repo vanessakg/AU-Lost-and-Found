@@ -13,7 +13,7 @@ function myFunction() {
         //console.log(td)
             if (td) {
                 txtValue = td.textContent || td.innerText;
-                //console.log(txtValue)
+                ''console.log(txtValue)
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
                 } else {
